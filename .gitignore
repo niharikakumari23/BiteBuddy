@@ -1,0 +1,24 @@
+# Python
+venv/
+.venv/
+__pycache__/
+
+# Node
+**/node_modules/
+
+# Environment files
+.env
+**/.env
+
+# Build output
+dist/
+**/dist/
+
+#backend 
+backend/uploads/
+
+# Logs
+*.log
+
+# Zip files
+*.zip

@@ -1,0 +1,23 @@
+{
+  "name": "bitebuddy-backend",
+  "version": "1.0.0",
+  "description": "Backend for BiteBuddy AI Food Image Scanner",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@google/generative-ai": "^0.4.0",
+    "cors": "^2.8.6",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "mongoose": "^8.5.2",
+    "multer": "^1.4.5-lts.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.5"
+  }
+}

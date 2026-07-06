@@ -1,0 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+  /* Brand Colors - foodassistant.ai inspired emerald green */
+  --primary: #00E573;
+  --primary-rgb: 0, 229, 115;
+  --primary-hover: #00cc65;
+  --primary-dark: #00a854;
+  --primary-light: rgba(0, 229, 115, 0.12);
+  --primary-ultra-light: rgba(0, 229, 115, 0.06);
+
+  /* Secondary / Accent */
+  --secondary: #0ea5e9;
+  --secondary-light: rgba(14, 165, 233, 0.12);
+  --accent: #f59e0b;
+  --accent-light: rgba(245, 158, 11, 0.12);
+  --purple: #8b5cf6;
+  --purple-light: rgba(139, 92, 246, 0.12);
+  --rose: #f43f5e;
+  --rose-light: rgba(244, 63, 94, 0.12);
+
+  /* Semantic */
+  --success: #00E573;
+  --warning: #f59e0b;
+  --danger: #f43f5e;
+  --info: #0ea5e9;
+
+  /* Light Mode Backgrounds */
+  --bg-page: #f8faf8;
+  --bg-surface: #ffffff;
+  --bg-card: #ffffff;
+  --bg-muted: #f1f5f1;
+  --bg-muted-hover: #e8ede8;
+
+  /* Text */
+  --text-main: #1a2e1a;
+  --text-secondary: #3d5a3d;
+  --text-muted: #6b8368;
+  --text-inverse: #ffffff;
+  --text-on-primary: #0d2e1a;
+
+  /* Borders */
+  --border: #d8e8d8;
+  --border-hover: #b0c8b0;
+  --border-focus: rgba(0, 229, 115, 0.45);
+
+  /* Shadows */
+  --shadow-xs: 0 1px 3px rgba(0, 60, 20, 0.05);
+  --shadow-sm: 0 2px 8px rgba(0, 60, 20, 0.07);
+  --shadow-md: 0 8px 24px rgba(0, 60, 20, 0.10);
+  --shadow-lg: 0 20px 48px rgba(0, 60, 20, 0.13);
+  --shadow-primary: 0 8px 32px rgba(0, 229, 115, 0.25);
+
+  /* Typography */
+  --font-heading: 'DM Sans', system-ui, sans-serif;
+  --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+
+  /* Border Radius */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-spring: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Glass */
+  --glass: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.6);
+
+  /* Layout */
+  --sidebar-width: 280px;
+  --header-h: 68px;
+}
+
+/* ============================================
+   Dark Mode Overrides
+   ============================================ */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-page: #0d1a0d;
+    --bg-surface: #132213;
+    --bg-card: #1a2e1a;
+    --bg-muted: #1f3520;
+    --bg-muted-hover: #253d26;
+
+    --text-main: #e8f5e8;
+    --text-secondary: #a8c8a8;
+    --text-muted: #7a9e7a;
+
+    --border: #253d25;
+    --border-hover: #3a5a3a;
+    --border-focus: rgba(0, 229, 115, 0.5);
+
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
+    --shadow-lg: 0 20px 48px rgba(0, 0, 0, 0.45);
+
+    --glass: rgba(19, 34, 19, 0.9);
+    --glass-border: rgba(0, 229, 115, 0.1);
+
+    --primary-light: rgba(0, 229, 115, 0.15);
+    --primary-ultra-light: rgba(0, 229, 115, 0.08);
+  }
+}
+
+/* ============================================
+   Reset & Base
+   ============================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  line-height: 1.25;
+  color: var(--text-main);
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+a:hover {
+  color: var(--primary-hover);
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+input, textarea, select {
+  font-family: var(--font-body);
+  outline: none;
+}
+
+/* ============================================
+   Custom Scrollbar
+   ============================================ */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: var(--radius-full); }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
