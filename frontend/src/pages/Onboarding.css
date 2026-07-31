@@ -1,0 +1,40 @@
+.onboarding-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background: var(--background);
+}
+
+.onboarding-card {
+  width: 100%;
+  max-width: 500px;
+  padding: 2rem;
+}
+
+.onboarding-step {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  animation: fade-in 0.3s ease-out;
+}
+
+.onboarding-step label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--foreground-secondary);
+}
+
+.btn-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.btn-group button {
+  flex: 1;
+}

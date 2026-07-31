@@ -1,0 +1,35 @@
+.macro-ring-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.macro-ring-progress {
+  transition: stroke-dasharray 1s var(--ease-spring);
+}
+
+.macro-ring-center {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 50%;
+  height: 50%;
+}
+
+.macro-ring-value {
+  font-size: var(--text-2xl);
+  font-weight: var(--font-bold);
+  color: var(--foreground);
+  line-height: 1;
+  margin-bottom: var(--space-1);
+}
+
+.macro-ring-label {
+  font-size: var(--text-xs);
+  color: var(--muted);
+  font-weight: var(--font-medium);
+}

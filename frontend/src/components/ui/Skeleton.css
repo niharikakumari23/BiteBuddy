@@ -1,0 +1,11 @@
+.skeleton {
+  background-color: var(--border);
+  background-image: linear-gradient(
+    90deg,
+    var(--border) 0px,
+    var(--border-hover) 40px,
+    var(--border) 80px
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+}

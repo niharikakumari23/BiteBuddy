@@ -6,24 +6,29 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
 
-from prompts import SYSTEM_PROMPT
+from prompts import CHAT_SYSTEM_PROMPT
 load_dotenv()
 from meal_scan import router as meal_router
+from shopping_ai import router as shopping_router
+from ai_personalize import router as ai_router
 
 load_dotenv()
 
 # Configure Google Gemini
-api_key = os.getenv("GEMINIKEY")
+api_key = os.getenv("GEMINIKEY") or os.getenv("GOOGLE_API_KEY")
 if not api_key:
-    print("WARNING: GEMINIKEY environment variable not set.")
+    print("WARNING: Neither GEMINIKEY nor GOOGLE_API_KEY environment variable is set.")
 genai.configure(api_key=api_key)
 
 model = genai.GenerativeModel(
     model_name="gemini-2.5-flash",
-    system_instruction=SYSTEM_PROMPT
+    system_instruction=CHAT_SYSTEM_PROMPT
 )
 
 app = FastAPI(title="BiteBuddy API", description="AI Food Assistant Backend")
+app.include_router(meal_router)
+app.include_router(shopping_router)
+app.include_router(ai_router)
 
 # Enable CORS for React frontend development
 app.add_middleware(

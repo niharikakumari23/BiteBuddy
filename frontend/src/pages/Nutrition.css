@@ -1,0 +1,217 @@
+.nutrition-grid {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: var(--space-6);
+  margin-bottom: var(--space-8);
+}
+
+/* Daily Card */
+.nutrition-daily-card {
+  padding: var(--space-6);
+}
+
+.card-header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-6);
+}
+
+.text-muted {
+  color: var(--muted);
+}
+
+.text-sm {
+  font-size: var(--text-sm);
+}
+
+.macro-rings-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: var(--space-6);
+}
+
+.macro-legend {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  flex: 1;
+  max-width: 250px;
+}
+
+.macro-legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  background-color: var(--background);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+}
+
+.macro-legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-full);
+}
+
+.macro-legend-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.macro-legend-label {
+  font-size: var(--text-xs);
+  color: var(--muted);
+  font-weight: var(--font-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.macro-legend-value {
+  font-weight: var(--font-bold);
+  font-size: var(--text-sm);
+}
+
+/* Side Grid */
+.nutrition-side-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+/* Streak Card */
+.streak-card {
+  padding: var(--space-5);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), var(--surface));
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.streak-icon-box {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-full);
+  background-color: var(--surface);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.streak-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.streak-title {
+  margin: 0 0 var(--space-1) 0;
+  font-size: var(--text-lg);
+  color: var(--warning);
+}
+
+.streak-desc {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--foreground-secondary);
+}
+
+/* Summary Card */
+.summary-card {
+  padding: var(--space-5);
+  flex: 1;
+}
+
+.summary-stats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+.summary-stat-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.summary-stat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.summary-stat-value {
+  font-size: var(--text-lg);
+  font-weight: var(--font-bold);
+  line-height: 1.2;
+}
+
+.summary-stat-label {
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+
+/* Trends Section */
+.section-title {
+  font-size: var(--text-xl);
+  margin-bottom: var(--space-4);
+}
+
+.trends-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+}
+
+.trend-card {
+  padding: var(--space-5);
+}
+
+.trend-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-4);
+}
+
+.trend-title-box {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.trend-title {
+  font-weight: var(--font-semibold);
+}
+
+.trend-avg {
+  font-size: var(--text-xs);
+  color: var(--muted);
+  font-weight: var(--font-medium);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .nutrition-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .trends-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .macro-rings-container {
+    flex-direction: column;
+  }
+  
+  .macro-legend {
+    width: 100%;
+    max-width: none;
+  }
+}

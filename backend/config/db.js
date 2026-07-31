@@ -28,8 +28,14 @@ connectWithRetry();
 const db = mongoose.connection;
 
 // Connection opened
-db.on("open", () => {
+db.on("open", async () => {
     console.log("📦 MongoDB connection opened");
+    try {
+        await mongoose.connection.collection('mealplans').dropIndex('userId_1_diet_1');
+        console.log("✅ Successfully dropped stale unique index userId_1_diet_1");
+    } catch (err) {
+        // Stale index already dropped or not present
+    }
 });
 
 // Connection error

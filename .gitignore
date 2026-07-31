@@ -22,3 +22,7 @@ backend/uploads/
 
 # Zip files
 *.zip
+
+# Tool / IDE configs
+.gemini/
+.kombai/

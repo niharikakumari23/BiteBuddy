@@ -1,0 +1,280 @@
+.workout-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+}
+
+.workout-tab-btn {
+  background: none;
+  border: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.workout-tab-btn:hover {
+  background: var(--surface-variant);
+  color: var(--text-primary);
+}
+
+.workout-tab-btn.active {
+  background: var(--primary-glow);
+  color: var(--primary);
+}
+
+/* Templates list styling */
+.templates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.template-card {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--duration-fast) var(--ease-default), box-shadow var(--duration-fast) var(--ease-default), border-color var(--duration-fast) var(--ease-default);
+}
+
+.template-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-muted);
+}
+
+.template-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.template-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.template-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.template-btn {
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.template-btn:hover {
+  background: var(--surface-variant);
+  color: var(--text-primary);
+}
+
+.template-exercises-list {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+  line-height: 1.5;
+  flex-grow: 1;
+}
+
+.template-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+/* Active Session Layout */
+.active-workout-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.active-timer {
+  font-family: monospace;
+  font-size: 1.25rem;
+  font-weight: bold;
+  background: var(--primary-glow);
+  color: var(--primary);
+  padding: 6px 12px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.active-exercise-card {
+  margin-bottom: 16px;
+  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xs);
+}
+
+.exercise-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.sets-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.sets-table th {
+  text-align: center;
+  color: var(--text-secondary);
+  padding: 8px 4px;
+  font-weight: 600;
+  border-bottom: 1px solid var(--border);
+}
+
+.sets-table td {
+  padding: 6px 4px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.set-row {
+  transition: background 0.2s ease;
+}
+
+.set-row.completed {
+  background: rgba(16, 185, 129, 0.05);
+}
+
+.set-input {
+  width: 65px;
+  height: 32px;
+  text-align: center;
+  border: 1px solid var(--border);
+  background: var(--input-bg);
+  color: var(--foreground);
+  border-radius: var(--radius-sm);
+  padding: 0 4px;
+  font-weight: 500;
+  transition: border-color var(--duration-fast) var(--ease-default);
+}
+
+.set-input:focus {
+  border-color: var(--primary);
+  outline: none;
+}
+
+.checkbox-btn {
+  background: var(--surface-variant);
+  border: 1px solid var(--border);
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: transparent;
+  transition: all 0.2s ease;
+}
+
+.checkbox-btn.completed {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+}
+
+.add-exercise-btn {
+  width: 100%;
+  border: 2px dashed var(--border);
+  background: none;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 16px;
+  transition: all 0.2s ease;
+}
+
+.add-exercise-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--primary-glow);
+}
+
+/* History Card */
+.history-exercise-item {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 8px;
+  line-height: 1.4;
+}
+
+/* Analytics Hub */
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.analytic-card {
+  padding: 20px;
+  text-align: center;
+}
+
+.analytic-value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin: 8px 0;
+}
+
+.analytic-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.muscles-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.muscle-chip {
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 12px;
+  background: var(--surface-variant);
+  color: var(--text-secondary);
+  font-weight: bold;
+}

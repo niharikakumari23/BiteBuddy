@@ -1,0 +1,84 @@
+.bb-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.bb-input-label {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--foreground-secondary);
+}
+
+.bb-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.bb-input-icon {
+  position: absolute;
+  left: 12px;
+  width: 16px;
+  height: 16px;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.bb-input {
+  width: 100%;
+  padding: 9px 14px;
+  font-size: var(--text-base);
+  color: var(--foreground);
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: var(--transition-fast);
+}
+
+.bb-input--with-icon {
+  padding-left: 38px;
+}
+
+.bb-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-ring);
+  background: var(--surface);
+}
+
+.bb-input::placeholder {
+  color: var(--muted-foreground);
+}
+
+.bb-input-group--error .bb-input {
+  border-color: var(--destructive);
+}
+.bb-input-group--error .bb-input:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
+
+.bb-input-error {
+  font-size: var(--text-xs);
+  color: var(--destructive);
+  font-weight: var(--font-medium);
+}
+
+.bb-textarea {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: var(--text-base);
+  color: var(--foreground);
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: var(--transition-fast);
+  resize: vertical;
+  min-height: 80px;
+  line-height: 1.5;
+}
+
+.bb-textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-ring);
+  background: var(--surface);
+}

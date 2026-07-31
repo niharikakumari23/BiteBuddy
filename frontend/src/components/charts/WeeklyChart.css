@@ -1,0 +1,108 @@
+.weekly-chart {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-top: var(--space-4);
+}
+
+.weekly-chart-bars {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.weekly-chart-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+.weekly-chart-bar-container {
+  width: 100%;
+  flex: 1;
+  background-color: var(--background);
+  border-radius: var(--radius-sm);
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: var(--space-2);
+}
+
+.weekly-chart-bar {
+  width: 100%;
+  background-color: var(--primary);
+  border-radius: var(--radius-sm);
+  position: relative;
+  transition: height 1s var(--ease-spring);
+  min-height: 4px;
+}
+
+.weekly-chart-bar:hover {
+  background-color: var(--primary-hover);
+}
+
+.weekly-chart-bar-over {
+  background-color: var(--destructive);
+}
+
+.weekly-chart-bar-over:hover {
+  background-color: var(--destructive);
+  opacity: 0.9;
+}
+
+.weekly-chart-target-line {
+  position: absolute;
+  left: -2px;
+  right: -2px;
+  height: 2px;
+  background-color: var(--foreground-secondary);
+  border-radius: 2px;
+  z-index: 1;
+  opacity: 0.5;
+  border-top: 1px dashed var(--background);
+}
+
+.weekly-chart-label {
+  font-size: var(--text-xs);
+  color: var(--muted);
+  font-weight: var(--font-medium);
+}
+
+.weekly-chart-tooltip {
+  position: absolute;
+  top: -32px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--foreground);
+  color: var(--background);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  font-weight: var(--font-medium);
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--transition-fast);
+  z-index: 10;
+}
+
+.weekly-chart-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 4px 4px 0;
+  border-style: solid;
+  border-color: var(--foreground) transparent transparent transparent;
+}
+
+.weekly-chart-bar:hover .weekly-chart-tooltip {
+  opacity: 1;
+  visibility: visible;
+  top: -36px;
+}

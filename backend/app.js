@@ -4,8 +4,22 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
-const mealsRouter = require('./routes/meals');
 const cors = require("cors");
+
+// Route imports
+const mealsRouter = require('./routes/meals');
+const goalsRouter = require('./routes/goals');
+const shoppingRouter = require('./routes/shopping');
+const mealplanRouter = require('./routes/mealplan');
+const profileRouter = require('./routes/profile');
+const workoutsRouter = require('./routes/workouts');
+const { router: meallogRouter } = require('./routes/meallog');
+const generateRouter = require('./routes/generate');
+const authRouter = require('./routes/auth');
+const foodRouter = require('./routes/food');
+const chatRouter = require('./routes/chat');
+const waterlogRouter = require('./routes/waterlog');
+const analyticsRouter = require('./routes/analytics');
 
 const app = express();
 app.use(cors());
@@ -26,8 +40,20 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// Meals routes
+// API Routes
+app.use('/api/auth', authRouter);
 app.use('/api/meals', mealsRouter);
+app.use('/api/goals', goalsRouter);
+app.use('/api/shopping', shoppingRouter);
+app.use('/api/mealplan', mealplanRouter);
+app.use('/api/profile', profileRouter);
+app.use('/api/workouts', workoutsRouter);
+app.use('/api/meallog', meallogRouter);
+app.use('/api/generate', generateRouter);
+app.use('/api/food', foodRouter);
+app.use('/api/chat', chatRouter);
+app.use('/api/waterlog', waterlogRouter);
+app.use('/api/analytics', analyticsRouter);
 
 app.listen(PORT, () => {
   console.log(`Server listening on http://localhost:${PORT}`);

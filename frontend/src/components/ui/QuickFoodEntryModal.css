@@ -1,0 +1,379 @@
+/* frontend/src/components/ui/QuickFoodEntryModal.css */
+
+.qfe-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(34, 45, 38, 0.4);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.qfe-content {
+  width: 100%;
+  max-width: 500px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--duration-normal) var(--ease-spring);
+}
+
+.qfe-content.glassmorphism {
+  background: var(--surface-overlay);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+}
+
+.qfe-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.qfe-header-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.qfe-header-title h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin: 0;
+}
+
+.qfe-sparkle-icon {
+  animation: pulse 2s infinite ease-in-out;
+  color: var(--primary);
+}
+
+.qfe-close-btn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.qfe-close-btn:hover {
+  background: var(--input-bg);
+  color: var(--foreground);
+}
+
+.qfe-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.qfe-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.qfe-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.qfe-textarea {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  color: var(--foreground);
+  font-size: 0.95rem;
+  font-family: inherit;
+  resize: vertical;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.qfe-textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--primary-ring);
+}
+
+.qfe-select {
+  width: 100%;
+  height: 44px;
+  padding: 0 16px;
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  color: var(--foreground);
+  font-size: 0.95rem;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.qfe-select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--primary-ring);
+}
+
+.qfe-select option {
+  background: var(--surface);
+  color: var(--foreground);
+}
+
+.qfe-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.qfe-btn {
+  height: 44px;
+  font-weight: 600;
+}
+
+.qfe-loading-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  gap: 12px;
+  background: var(--surface-raised);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+}
+
+.qfe-loading-spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid var(--primary-muted);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 1s infinite linear;
+}
+
+.qfe-loading-wrapper p {
+  font-size: 0.875rem;
+  color: var(--muted);
+  margin: 0;
+  text-align: center;
+}
+
+/* Preview Styles */
+.qfe-preview {
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.qfe-preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.qfe-preview-foodname {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin: 0 0 4px;
+  text-transform: capitalize;
+}
+
+.qfe-preview-serving {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.qfe-confidence-badge {
+  display: flex;
+  align-items: center;
+  background: rgba(76, 110, 88, 0.08);
+  color: var(--primary);
+  border: 1px solid rgba(76, 110, 88, 0.15);
+  padding: 4px 8px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.qfe-nutrition-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.qfe-nut-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 6px;
+  border-radius: var(--radius-lg);
+  text-align: center;
+  border: 1px solid var(--border);
+}
+
+.qfe-nut-card.calorie {
+  background: rgba(211, 108, 61, 0.08);
+  color: var(--color-calories);
+  border-color: rgba(211, 108, 61, 0.15);
+}
+
+.qfe-nut-card.protein {
+  background: rgba(79, 126, 168, 0.08);
+  color: var(--color-protein);
+  border-color: rgba(79, 126, 168, 0.15);
+}
+
+.qfe-nut-card.carbs {
+  background: rgba(220, 167, 60, 0.08);
+  color: var(--color-carbs);
+  border-color: rgba(220, 167, 60, 0.15);
+}
+
+.qfe-nut-card.fat {
+  background: rgba(192, 88, 134, 0.08);
+  color: var(--color-fat);
+  border-color: rgba(192, 88, 134, 0.15);
+}
+
+.qfe-nut-val {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.qfe-nut-lbl {
+  font-size: 0.65rem;
+  margin-top: 4px;
+  opacity: 0.8;
+}
+
+.qfe-extra-grid {
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 12px;
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 0.8rem;
+}
+
+.qfe-extra-item {
+  display: flex;
+  gap: 6px;
+}
+
+.qfe-extra-lbl {
+  color: var(--muted);
+}
+
+.qfe-extra-val {
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.qfe-log-preview-btn {
+  background: var(--primary);
+  color: white;
+  height: 40px;
+  font-weight: 600;
+}
+
+/* Animations */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+.w-full {
+  width: 100%;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+/* User Typing Feedback Styling */
+.qfe-typing-status {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+  animation: qfe-fade-in 0.2s ease-out;
+}
+
+.qfe-typing-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: rgba(76, 110, 88, 0.08);
+  border: 1px solid rgba(76, 110, 88, 0.15);
+  border-radius: var(--radius-full);
+  color: var(--primary);
+  font-weight: 500;
+  max-width: 100%;
+}
+
+.qfe-typing-pill span {
+  font-size: 0.85rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 320px;
+}
+
+.qfe-typing-pill strong {
+  color: var(--foreground);
+}
+
+.qfe-typing-indicator-dot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--primary);
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: qfe-blink 1.2s infinite ease-in-out;
+}
+
+@keyframes qfe-blink {
+  0%, 100% { transform: scale(0.8); opacity: 0.5; }
+  50% { transform: scale(1.2); opacity: 1; }
+}
+
+@keyframes qfe-fade-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}

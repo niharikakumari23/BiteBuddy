@@ -2,16 +2,15 @@ const mongoose = require("mongoose");
 
 const goalSchema = new mongoose.Schema({
     userId: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
         required: true,
-
     },
     diet: {
         type: String,
         required: true,
-
     },
-    weightgoal: {
+    weightGoal: {
         type: String,
         required: true,
     },
@@ -19,6 +18,6 @@ const goalSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-});
+}, { timestamps: true });
 
 module.exports = mongoose.model("Goal", goalSchema);

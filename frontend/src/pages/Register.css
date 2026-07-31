@@ -1,0 +1,6 @@
+@import url('./Login.css');
+
+/* Custom overrides for Register page if needed */
+.auth-card h2 {
+  color: var(--foreground);
+}

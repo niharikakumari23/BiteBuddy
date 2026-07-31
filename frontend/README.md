@@ -1,16 +1,105 @@
-# React + Vite
+# BiteBuddy 🍽️
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+**BiteBuddy** is a modern, full‑stack web application that helps users discover, track, and share their favorite recipes. Built with a sleek **React** frontend and a **Node.js/Express** backend, it offers an intuitive UI, real‑time updates, and a pleasant dark‑mode experience.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- 🍳 **Recipe Management**: Create, edit, and delete recipes with rich text and image support.
+- 📊 **Nutrition Insights**: Automatic calculation of calories, macros, and serving sizes.
+- 🤝 **Social Sharing**: Share recipes via a unique link or directly to social platforms.
+- 🌙 **Dark Mode**: Elegant dark theme with smooth transitions.
+- ⚡ **Real‑time Sync**: Instant updates across devices using WebSockets.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Tech Stack
+
+| Layer      | Technology                                          |
+|------------|------------------------------------------------------|
+| Frontend   | **React** (Vite), **CSS Modules**, **Google Fonts (Inter)** |
+| Backend    | **Node.js** (Express), **MongoDB**, **Mongoose**    |
+| Dev Tools  | **Vite**, **ESLint**, **Prettier**, **Jest**        |
+| Deployment | **Docker**, **GitHub Actions** (optional)           |
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- **Node.js** (>= 18.x)
+- **npm** (or **yarn**)
+- **MongoDB** (local or Atlas instance)
+
+### Installation
+
+```bash
+# Clone the repository (private access may be required)
+git clone https://github.com/niharikakumari23/BiteBuddy.git
+cd BiteBuddy
+
+# Install dependencies for both frontend and backend
+npm install        # installs root dev tools
+npm run install:all   # custom script to install both sides (or run manually)
+```
+
+### Running the App
+
+```bash
+# Start the backend API
+cd backend
+npm run dev
+
+# In a new terminal, start the frontend
+cd ../frontend
+npm run dev
+```
+
+The app will be available at `http://localhost:5173`.
+
+---
+
+## Usage
+
+1. **Sign Up / Login** – Secure authentication via JWT.
+2. **Add a Recipe** – Fill out the form, upload an image, and the app calculates nutrition.
+3. **Explore** – Browse community recipes, filter by ingredients, or search by name.
+4. **Share** – Click the share button to copy a link or post directly to social media.
+
+---
+
+## Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository (if you have access).
+2. Create a feature branch (`git checkout -b feat/awesome-feature`).
+3. Commit your changes with clear messages.
+4. Open a Pull Request describing the changes.
+5. Ensure your code passes linting and tests:
+
+```bash
+npm run lint
+npm test
+```
+
+---
+
+## License
+
+This project is **proprietary**. All rights reserved. Redistribution or use of this software is subject to the licensing agreement with the author.
+
+---
+
+## Contact
+
+- **Author**: [Niharika Kumari](https://github.com/niharikakumari23)
+- **Project Link**: https://github.com/niharikakumari23/BiteBuddy
+
+---
+
+*Let your culinary adventures begin with BiteBuddy!*

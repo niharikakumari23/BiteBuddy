@@ -1,0 +1,30 @@
+.bb-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-sans);
+  font-weight: var(--font-medium);
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.bb-badge--sm { padding: 3px 10px; font-size: var(--text-xs); }
+.bb-badge--md { padding: 4px 12px; font-size: var(--text-sm); }
+
+.bb-badge--default { background: var(--background); color: var(--muted); border: 1px solid var(--border); }
+.bb-badge--primary { background: var(--primary-muted); color: var(--primary); }
+.bb-badge--destructive { background: var(--destructive-subtle); color: var(--destructive); }
+.bb-badge--warning { background: var(--warning-subtle); color: var(--warning); }
+.bb-badge--info { background: var(--info-subtle); color: var(--info); }
+.bb-badge--calories { background: rgba(249, 115, 22, 0.1); color: var(--color-calories); }
+.bb-badge--protein { background: rgba(59, 130, 246, 0.1); color: var(--color-protein); }
+.bb-badge--carbs { background: rgba(245, 158, 11, 0.1); color: var(--color-carbs); }
+.bb-badge--fat { background: rgba(236, 72, 153, 0.1); color: var(--color-fat); }
+
+.bb-badge__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
