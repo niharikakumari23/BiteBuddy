@@ -13,18 +13,24 @@ async function connectDB() {
 
     let uriToUse = mongoURI || "mongodb://localhost:27017/BiteBuddy";
 
-    // Fix MongoDB Atlas database name casing mismatch (bitebuddy vs BiteBuddy)
+    // Fix MongoDB Atlas database name casing & default missing db name
     if (uriToUse.includes('/bitebuddy')) {
         uriToUse = uriToUse.replace('/bitebuddy', '/BiteBuddy');
+    } else if (uriToUse.includes('.mongodb.net/?')) {
+        uriToUse = uriToUse.replace('.mongodb.net/?', '.mongodb.net/BiteBuddy?');
+    } else if (uriToUse.includes('.mongodb.net/test?')) {
+        uriToUse = uriToUse.replace('.mongodb.net/test?', '.mongodb.net/BiteBuddy?');
+    } else if (uriToUse.endsWith('mongodb.net') || uriToUse.endsWith('mongodb.net/')) {
+        uriToUse = uriToUse.replace(/\/+$/, '') + '/BiteBuddy';
     }
 
-    if (mongoose.connection.readyState === 1) {
+    if (mongoose.connection.readyState >= 1) {
         return mongoose.connection;
     }
 
     try {
         const db = await mongoose.connect(uriToUse, {
-            serverSelectionTimeoutMS: 5000,
+            serverSelectionTimeoutMS: 10000,
         });
         isConnected = true;
         console.log("✅ Connected to MongoDB:", uriToUse.replace(/\/\/.*@/, '//***:***@'));

@@ -44,7 +44,7 @@ app.use(async (req, res, next) => {
     next();
   } catch (err) {
     console.error("Database Connection Error:", err.message);
-    return res.status(500).json({ error: "Database connection failed. Please check MONGODB_URI on Vercel." });
+    return res.status(500).json({ error: `Database connection failed: ${err.message}. Please check MONGODB_URI on Vercel and MongoDB Atlas IP Whitelist (0.0.0.0/0).` });
   }
 });
 
@@ -53,9 +53,23 @@ app.get('/', (req, res) => {
   res.json({ message: 'BiteBuddy Express Backend API is active', status: 'ok', health: '/api/health' });
 });
 
-// Health check routes
-app.get(['/api/health', '/health'], (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+// Health check routes with DB diagnostic status
+app.get(['/api/health', '/health'], async (req, res) => {
+  let dbStatus = 'disconnected';
+  let dbError = null;
+  try {
+    await connectDB();
+    dbStatus = 'connected';
+  } catch (err) {
+    dbStatus = 'failed';
+    dbError = err.message;
+  }
+  res.json({
+    status: 'ok',
+    database: dbStatus,
+    error: dbError,
+    timestamp: new Date().toISOString()
+  });
 });
 
 // API Routes (Mounted under both /api/* and /* for full compatibility)
