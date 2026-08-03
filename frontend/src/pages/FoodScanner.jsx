@@ -140,7 +140,8 @@ export const FoodScanner = ({
       const formData = new FormData();
       formData.append('image', selectedFile);
 
-      const res = await fetch('http://localhost:8000/api/meals/scan', {
+      const FASTAPI_BASE = import.meta.env.VITE_FASTAPI_URL || 'http://localhost:8000';
+      const res = await fetch(`${FASTAPI_BASE}/api/meals/scan`, {
         method: 'POST',
         body: formData,
       });

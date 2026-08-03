@@ -40,8 +40,10 @@ async function analyzeAndLogFood(req, res) {
       return res.status(400).json({ error: 'No profile found. Please complete onboarding first.' });
     }
 
+    const FASTAPI_URL = process.env.FASTAPI_URL || 'http://127.0.0.1:8000';
+
     // 1. Call FastAPI to analyze text description
-    const aiResponse = await fetch('http://127.0.0.1:8000/api/meals/analyze-text', {
+    const aiResponse = await fetch(`${FASTAPI_URL}/api/meals/analyze-text`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ food })
@@ -123,7 +125,7 @@ async function analyzeAndLogFood(req, res) {
         });
 
         // Call FastAPI to adjust remaining plan
-        const adjustRes = await fetch('http://127.0.0.1:8000/api/ai/adjust', {
+        const adjustRes = await fetch(`${FASTAPI_URL}/api/ai/adjust`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -144,7 +146,7 @@ async function analyzeAndLogFood(req, res) {
             activePlan.markModified('plan');
 
             // Regenerate weekly shopping list based on the new plan
-            const shoppingRes = await fetch('http://127.0.0.1:8000/api/shopping/generate', {
+            const shoppingRes = await fetch(`${FASTAPI_URL}/api/shopping/generate`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ plan: activePlan.plan })

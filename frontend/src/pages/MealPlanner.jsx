@@ -72,7 +72,8 @@ export const MealPlanner = ({ profile, plan, API_BASE, token, setActivePlan }) =
   const generateRecipe = async (mealName) => {
     setIsGenerating(true);
     try {
-      const res = await fetch(`http://localhost:8000/api/chat`, {
+      const FASTAPI_BASE = import.meta.env.VITE_FASTAPI_URL || 'http://localhost:8000';
+      const res = await fetch(`${FASTAPI_BASE}/api/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ messages: [{ role: 'user', content: `Can you give me a simple recipe for ${mealName} including ingredients and short instructions?` }] })
@@ -90,7 +91,8 @@ export const MealPlanner = ({ profile, plan, API_BASE, token, setActivePlan }) =
   const regenerateMeal = async () => {
     setIsGenerating(true);
     try {
-      const res = await fetch(`http://localhost:8000/api/chat`, {
+      const FASTAPI_BASE = import.meta.env.VITE_FASTAPI_URL || 'http://localhost:8000';
+      const res = await fetch(`${FASTAPI_BASE}/api/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ messages: [{ role: 'user', content: `Suggest a single, different ${selectedMeal.typeLabel} under 600 calories. Return ONLY JSON like {"name": "...", "kcal": 450, "tag": "healthy"}` }] })
