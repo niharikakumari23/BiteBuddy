@@ -11,7 +11,12 @@ async function connectDB() {
         throw new Error("MONGODB_URI environment variable is missing in Vercel Project Settings.");
     }
 
-    const uriToUse = mongoURI || "mongodb://localhost:27017/bitebuddy";
+    let uriToUse = mongoURI || "mongodb://localhost:27017/BiteBuddy";
+
+    // Fix MongoDB Atlas database name casing mismatch (bitebuddy vs BiteBuddy)
+    if (uriToUse.includes('/bitebuddy')) {
+        uriToUse = uriToUse.replace('/bitebuddy', '/BiteBuddy');
+    }
 
     if (mongoose.connection.readyState === 1) {
         return mongoose.connection;
@@ -22,7 +27,7 @@ async function connectDB() {
             serverSelectionTimeoutMS: 5000,
         });
         isConnected = true;
-        console.log("✅ Connected to MongoDB");
+        console.log("✅ Connected to MongoDB:", uriToUse.replace(/\/\/.*@/, '//***:***@'));
         return db;
     } catch (err) {
         console.error("❌ MongoDB connection failed:", err.message);
