@@ -22,16 +22,7 @@ import { Register } from './pages/Register';
 import './App.css';
 import { useToast } from './hooks/useToast';
 
-const getApiBase = () => {
-  let url = (import.meta.env.VITE_API_URL || '/api').trim();
-  url = url.replace(/\/+$/, '');
-  if (!url.endsWith('/api')) {
-    url += '/api';
-  }
-  return url;
-};
-
-const API_BASE = getApiBase();
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 function App() {
   const { addToast } = useToast();
@@ -128,7 +119,7 @@ function App() {
       if (profRes.ok) {
         const profData = await profRes.json();
         setProfile(profData);
-        
+
         // 2. Fetch Active AI Plan
         const planRes = await fetch(`${API_BASE}/generate`, {
           headers: { 'Authorization': `Bearer ${currentToken}` }
@@ -143,7 +134,7 @@ function App() {
             setShoppingItems([]);
           }
         }
-        
+
         // 3. Fetch Today's Meal Logs
         const d = new Date().toLocaleDateString('en-CA'); // YYYY-MM-DD local format
         const logsRes = await fetch(`${API_BASE}/meallog?date=${d}`, {
@@ -240,18 +231,18 @@ function App() {
   if (!token || !user) {
     if (authView === 'login') {
       return (
-        <Login 
-          API_BASE={API_BASE} 
-          onLoginSuccess={handleLoginSuccess} 
-          navigateToRegister={() => setAuthView('register')} 
+        <Login
+          API_BASE={API_BASE}
+          onLoginSuccess={handleLoginSuccess}
+          navigateToRegister={() => setAuthView('register')}
         />
       );
     } else {
       return (
-        <Register 
-          API_BASE={API_BASE} 
-          onRegisterSuccess={handleLoginSuccess} 
-          navigateToLogin={() => setAuthView('login')} 
+        <Register
+          API_BASE={API_BASE}
+          onRegisterSuccess={handleLoginSuccess}
+          navigateToLogin={() => setAuthView('login')}
         />
       );
     }
@@ -260,10 +251,10 @@ function App() {
   // Authenticated but onboarding incomplete: force Onboarding page (no sidebar)
   if (!profile) {
     return (
-      <Onboarding 
-        API_BASE={API_BASE} 
-        token={token} 
-        onComplete={() => verifyToken()} 
+      <Onboarding
+        API_BASE={API_BASE}
+        token={token}
+        onComplete={() => verifyToken()}
       />
     );
   }
@@ -312,20 +303,20 @@ function App() {
 
   return (
     <div className="app-layout">
-      <Sidebar 
-        isCollapsed={isSidebarCollapsed} 
-        toggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)} 
+      <Sidebar
+        isCollapsed={isSidebarCollapsed}
+        toggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
         currentPage={currentPage}
         navigateTo={setCurrentPage}
       />
-      
+
       <main className="app-content">
         <div className="app-page-wrapper">
           {renderPage()}
         </div>
       </main>
 
-      <MobileNav 
+      <MobileNav
         currentPage={currentPage}
         navigateTo={setCurrentPage}
       />
@@ -335,7 +326,7 @@ function App() {
       </button>
 
       {isQuickFoodOpen && (
-        <QuickFoodEntryModal 
+        <QuickFoodEntryModal
           isOpen={isQuickFoodOpen}
           onClose={() => setIsQuickFoodOpen(false)}
           logs={logs}

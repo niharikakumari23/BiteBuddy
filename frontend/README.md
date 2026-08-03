@@ -1,5 +1,9 @@
 # BiteBuddy 🍽️
 
+![License](https://img.shields.io/github/license/niharikakumari23/BiteBuddy)
+![Stars](https://img.shields.io/github/stars/niharikakumari23/BiteBuddy?style=social)
+![Last Commit](https://img.shields.io/github/last-commit/niharikakumari23/BiteBuddy)
+
 ## Overview
 
 **BiteBuddy** is a modern, full‑stack web application that helps users discover, track, and share their favorite recipes. Built with a sleek **React** frontend and a **Node.js/Express** backend, it offers an intuitive UI, real‑time updates, and a pleasant dark‑mode experience.
@@ -18,12 +22,12 @@
 
 ## Tech Stack
 
-| Layer      | Technology                                          |
-|------------|------------------------------------------------------|
-| Frontend   | **React** (Vite), **CSS Modules**, **Google Fonts (Inter)** |
-| Backend    | **Node.js** (Express), **MongoDB**, **Mongoose**    |
-| Dev Tools  | **Vite**, **ESLint**, **Prettier**, **Jest**        |
-| Deployment | **Docker**, **GitHub Actions** (optional)           |
+| Layer | Technology |
+|-------|------------|
+| Frontend | **React** (Vite), **CSS Modules**, **Google Fonts (Inter)** |
+| Backend | **Node.js** (Express), **MongoDB**, **Mongoose** |
+| Dev Tools | **Vite**, **ESLint**, **Prettier**, **Jest** |
+| Deployment | **Docker**, **GitHub Actions** |
 
 ---
 
@@ -38,7 +42,7 @@
 ### Installation
 
 ```bash
-# Clone the repository (private access may be required)
+# Clone the repository
 git clone https://github.com/niharikakumari23/BiteBuddy.git
 cd BiteBuddy
 
@@ -76,11 +80,12 @@ The app will be available at `http://localhost:5173`.
 
 Contributions are welcome! Please follow these steps:
 
-1. Fork the repository (if you have access).
+1. Fork the repository.
 2. Create a feature branch (`git checkout -b feat/awesome-feature`).
 3. Commit your changes with clear messages.
 4. Open a Pull Request describing the changes.
-5. Ensure your code passes linting and tests:
+
+Make sure your code passes linting and tests:
 
 ```bash
 npm run lint
@@ -91,7 +96,7 @@ npm test
 
 ## License
 
-This project is **proprietary**. All rights reserved. Redistribution or use of this software is subject to the licensing agreement with the author.
+Distributed under the **MIT License**. See `LICENSE` for more information.
 
 ---
 
@@ -99,6 +104,10 @@ This project is **proprietary**. All rights reserved. Redistribution or use of t
 
 - **Author**: [Niharika Kumari](https://github.com/niharikakumari23)
 - **Project Link**: https://github.com/niharikakumari23/BiteBuddy
+
+---
+
+
 
 ---
 
