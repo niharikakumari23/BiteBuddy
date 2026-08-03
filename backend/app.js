@@ -35,6 +35,19 @@ app.use(express.urlencoded({ extended: true }));
 // Serve uploaded images statically
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// DB Connection Middleware for Serverless Routines
+const { connectDB } = require('./config/db');
+app.use(async (req, res, next) => {
+  if (req.path === '/' || req.path === '/api/health') return next();
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    console.error("Database Connection Error:", err.message);
+    return res.status(500).json({ error: "Database connection failed. Please check MONGODB_URI on Vercel." });
+  }
+});
+
 // Root route
 app.get('/', (req, res) => {
   res.json({ message: 'BiteBuddy Express Backend API is active', status: 'ok', health: '/api/health' });
