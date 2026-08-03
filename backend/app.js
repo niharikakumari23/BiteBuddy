@@ -55,6 +55,10 @@ app.use('/api/chat', chatRouter);
 app.use('/api/waterlog', waterlogRouter);
 app.use('/api/analytics', analyticsRouter);
 
-app.listen(PORT, () => {
-  console.log(`Server listening on http://localhost:${PORT}`);
-});
+if (process.env.NODE_ENV !== 'production' || require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server listening on http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;

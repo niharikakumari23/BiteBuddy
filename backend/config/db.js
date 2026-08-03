@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const mongoURI =
-    process.env.MONGODB_URI || "mongodb://localhost:27017/bitebuddy";
+    process.env.MONGODB_URI || process.env.MONGO_URI || "mongodb://localhost:27017/bitebuddy";
 
 const MAX_RETRY_DELAY = 5000;
 
