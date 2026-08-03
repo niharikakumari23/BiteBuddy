@@ -57,14 +57,28 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ error: 'Email and password are required' });
     }
 
-    const user = await User.findOne({ email });
+    const cleanEmail = email.trim().toLowerCase();
+
+    let user = await User.findOne({ email: cleanEmail });
+
+    // Auto-create demo user if attempting demo login
+    if (!user && (cleanEmail === 'demo@bitebuddy.com' || cleanEmail === 'guest@bitebuddy.com')) {
+      user = new User({
+        name: 'Demo User',
+        email: cleanEmail,
+        password: password || 'password123',
+        profileCompleted: false
+      });
+      await user.save();
+    }
+
     if (!user) {
-      return res.status(401).json({ error: 'Invalid email or password' });
+      return res.status(401).json({ error: 'Account not found. Please click "Create an Account" to register.' });
     }
 
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
-      return res.status(401).json({ error: 'Invalid email or password' });
+      return res.status(401).json({ error: 'Incorrect password. Please try again.' });
     }
 
     const token = jwt.sign({ id: user._id }, JWT_SECRET, { expiresIn: '7d' });
@@ -80,7 +94,7 @@ router.post('/login', async (req, res) => {
     });
   } catch (err) {
     console.error('Login error:', err);
-    res.status(500).json({ error: 'Server error during login' });
+    res.status(500).json({ error: err.message || 'Server error during login' });
   }
 });
 

@@ -69,6 +69,35 @@ export const Login = ({ API_BASE, onLoginSuccess, navigateToRegister }) => {
     }
   };
 
+  const handleDemoLogin = async () => {
+    setEmail('demo@bitebuddy.com');
+    setPassword('password123');
+    setLoading(true);
+    setError('');
+    try {
+      const res = await fetch(`${API_BASE}/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: 'demo@bitebuddy.com', password: 'password123' })
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Demo login failed');
+      }
+
+      sessionStorage.setItem('token', data.token);
+      addToast('Welcome Demo User!', 'Logged in automatically.', 'success');
+      onLoginSuccess(data.token, data.user);
+    } catch (err) {
+      console.error(err);
+      setError(err.message);
+      addToast('Login Failed', err.message, 'error');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="auth-page-container animate-fade-in">
       <div className="auth-header-logo">
@@ -145,6 +174,11 @@ export const Login = ({ API_BASE, onLoginSuccess, navigateToRegister }) => {
           <Button type="submit" className="auth-submit-btn" disabled={loading}>
             <LogIn size={18} style={{ marginRight: 8 }} />
             {loading ? 'Logging in...' : 'Sign In'}
+          </Button>
+
+          <Button type="button" variant="outline" onClick={handleDemoLogin} disabled={loading} style={{ marginTop: '10px', width: '100%' }}>
+            <Sparkles size={18} style={{ marginRight: 8 }} />
+            Quick Demo Login (1-Click)
           </Button>
         </form>
 
