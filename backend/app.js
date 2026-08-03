@@ -79,7 +79,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: err.message || "Internal server error" });
 });
 
-if (process.env.NODE_ENV !== 'production' || require.main === module) {
+if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`Server listening on http://localhost:${PORT}`);
   });
