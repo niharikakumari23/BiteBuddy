@@ -1,23 +1,24 @@
 const mongoose = require("mongoose");
 
-const mongoURI =
-    process.env.MONGODB_URI || process.env.MONGO_URI || "mongodb://localhost:27017/bitebuddy";
-
 mongoose.set("strictQuery", true);
 
 let isConnected = false;
 
 async function connectDB() {
+    const mongoURI = process.env.MONGODB_URI || process.env.MONGO_URI;
+
+    if (!mongoURI && (process.env.VERCEL || process.env.NODE_ENV === 'production')) {
+        throw new Error("MONGODB_URI environment variable is missing in Vercel Project Settings.");
+    }
+
+    const uriToUse = mongoURI || "mongodb://localhost:27017/bitebuddy";
+
     if (mongoose.connection.readyState === 1) {
         return mongoose.connection;
     }
 
-    if (isConnected) {
-        return mongoose.connection;
-    }
-
     try {
-        const db = await mongoose.connect(mongoURI, {
+        const db = await mongoose.connect(uriToUse, {
             serverSelectionTimeoutMS: 5000,
         });
         isConnected = true;

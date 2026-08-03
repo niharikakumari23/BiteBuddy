@@ -73,6 +73,12 @@ app.use('/api/chat', chatRouter);
 app.use('/api/waterlog', waterlogRouter);
 app.use('/api/analytics', analyticsRouter);
 
+// Global Error Handler Middleware
+app.use((err, req, res, next) => {
+  console.error("Global Server Error:", err);
+  res.status(500).json({ error: err.message || "Internal server error" });
+});
+
 if (process.env.NODE_ENV !== 'production' || require.main === module) {
   app.listen(PORT, () => {
     console.log(`Server listening on http://localhost:${PORT}`);
