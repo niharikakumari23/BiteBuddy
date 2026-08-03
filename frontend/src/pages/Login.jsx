@@ -61,9 +61,12 @@ export const Login = ({ API_BASE, onLoginSuccess, navigateToRegister }) => {
       addToast('Welcome Back!', 'Login successful.', 'success');
       onLoginSuccess(data.token, data.user);
     } catch (err) {
-      console.error(err);
-      setError(err.message);
-      addToast('Login Failed', err.message, 'error');
+      console.error('Login Fetch Error:', err);
+      const msg = err.message === 'Failed to fetch'
+        ? `Network Error (Failed to fetch). Target URL: ${API_BASE}/auth/login`
+        : err.message;
+      setError(msg);
+      addToast('Login Failed', msg, 'error');
     } finally {
       setLoading(false);
     }

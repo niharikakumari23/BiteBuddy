@@ -62,9 +62,12 @@ export const Register = ({ API_BASE, onRegisterSuccess, navigateToLogin }) => {
       addToast('Account Created!', 'Welcome to BiteBuddy.', 'success');
       onRegisterSuccess(data.token, data.user);
     } catch (err) {
-      console.error(err);
-      setError(err.message);
-      addToast('Registration Failed', err.message, 'error');
+      console.error('Registration Fetch Error:', err);
+      const msg = err.message === 'Failed to fetch'
+        ? `Network Error (Failed to fetch). Target URL: ${API_BASE}/auth/register`
+        : err.message;
+      setError(msg);
+      addToast('Registration Failed', msg, 'error');
     } finally {
       setLoading(false);
     }
