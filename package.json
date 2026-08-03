@@ -2,6 +2,12 @@
   "name": "bitebuddy-monorepo",
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": "22.x"
+  },
+  "scripts": {
+    "build": "cd frontend && npm install && npm run build"
+  },
   "dependencies": {
     "@google/generative-ai": "^0.4.0",
     "bcryptjs": "^3.0.3",
