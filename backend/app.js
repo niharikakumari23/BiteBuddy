@@ -38,7 +38,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // DB Connection Middleware for Serverless Routines
 const { connectDB } = require('./config/db');
 app.use(async (req, res, next) => {
-  if (req.path === '/' || req.path === '/api/health') return next();
+  if (req.path === '/' || req.path === '/api/health' || req.path === '/health') return next();
   try {
     await connectDB();
     next();
@@ -53,25 +53,32 @@ app.get('/', (req, res) => {
   res.json({ message: 'BiteBuddy Express Backend API is active', status: 'ok', health: '/api/health' });
 });
 
-// Health check route
-app.get('/api/health', (req, res) => {
+// Health check routes
+app.get(['/api/health', '/health'], (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// API Routes
-app.use('/api/auth', authRouter);
-app.use('/api/meals', mealsRouter);
-app.use('/api/goals', goalsRouter);
-app.use('/api/shopping', shoppingRouter);
-app.use('/api/mealplan', mealplanRouter);
-app.use('/api/profile', profileRouter);
-app.use('/api/workouts', workoutsRouter);
-app.use('/api/meallog', meallogRouter);
-app.use('/api/generate', generateRouter);
-app.use('/api/food', foodRouter);
-app.use('/api/chat', chatRouter);
-app.use('/api/waterlog', waterlogRouter);
-app.use('/api/analytics', analyticsRouter);
+// API Routes (Mounted under both /api/* and /* for full compatibility)
+const routesMap = [
+  ['/auth', authRouter],
+  ['/meals', mealsRouter],
+  ['/goals', goalsRouter],
+  ['/shopping', shoppingRouter],
+  ['/mealplan', mealplanRouter],
+  ['/profile', profileRouter],
+  ['/workouts', workoutsRouter],
+  ['/meallog', meallogRouter],
+  ['/generate', generateRouter],
+  ['/food', foodRouter],
+  ['/chat', chatRouter],
+  ['/waterlog', waterlogRouter],
+  ['/analytics', analyticsRouter],
+];
+
+routesMap.forEach(([routePath, router]) => {
+  app.use(`/api${routePath}`, router);
+  app.use(routePath, router);
+});
 
 // Global Error Handler Middleware
 app.use((err, req, res, next) => {

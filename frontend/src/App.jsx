@@ -22,7 +22,16 @@ import { Register } from './pages/Register';
 import './App.css';
 import { useToast } from './hooks/useToast';
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const getApiBase = () => {
+  let url = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').trim();
+  url = url.replace(/\/+$/, '');
+  if (!url.endsWith('/api')) {
+    url += '/api';
+  }
+  return url;
+};
+
+const API_BASE = getApiBase();
 
 function App() {
   const { addToast } = useToast();
