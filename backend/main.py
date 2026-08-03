@@ -72,6 +72,15 @@ async def chat(request: ChatRequest):
         print(f"Error in chat endpoint: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.get("/")
+async def root():
+    return {
+        "message": "BiteBuddy AI Service is active",
+        "status": "ok",
+        "docs": "/docs",
+        "health": "/api/health"
+    }
+
 @app.get("/api/health")
 async def health():
     return {"status": "ok", "api_key_set": api_key is not None}
