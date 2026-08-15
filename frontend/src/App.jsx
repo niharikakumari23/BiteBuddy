@@ -23,7 +23,7 @@ import './App.css';
 import { useToast } from './hooks/useToast';
 
 const getApiBase = () => {
-  let url = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').trim();
+  let url = (import.meta.env.VITE_API_URL || '/api').trim();
   url = url.replace(/\/+$/, '');
   if (!url.endsWith('/api')) {
     url += '/api';
