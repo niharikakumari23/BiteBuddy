@@ -1,9 +1,8 @@
-// backend/controllers/foodController.js
-
 const MealLog = require('../models/MealLog');
 const MealPlan = require('../models/MealPlan');
 const UserProfile = require('../models/UserProfile');
 const WorkoutLog = require('../models/WorkoutLog');
+const { analyzeFoodText } = require('../services/geminiService');
 
 /**
  * Helper to get day string matching the plan keys (Mon, Tue, Wed, Thu, Fri, Sat, Sun)
@@ -40,21 +39,28 @@ async function analyzeAndLogFood(req, res) {
       return res.status(400).json({ error: 'No profile found. Please complete onboarding first.' });
     }
 
-    const FASTAPI_URL = process.env.FASTAPI_URL || 'http://127.0.0.1:8000';
+    let nutritionData = null;
+    const FASTAPI_URL = process.env.FASTAPI_URL;
 
-    // 1. Call FastAPI to analyze text description
-    const aiResponse = await fetch(`${FASTAPI_URL}/api/meals/analyze-text`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ food })
-    });
-
-    if (!aiResponse.ok) {
-      const errText = await aiResponse.text();
-      throw new Error(`AI Analysis Service Error: ${errText}`);
+    if (FASTAPI_URL) {
+      try {
+        const aiResponse = await fetch(`${FASTAPI_URL}/api/meals/analyze-text`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ food })
+        });
+        if (aiResponse.ok) {
+          nutritionData = await aiResponse.json();
+        }
+      } catch (err) {
+        console.warn("External FASTAPI_URL analysis unreachable, using Node Gemini fallback:", err.message);
+      }
     }
 
-    const nutritionData = await aiResponse.json();
+    // Direct Node Gemini / Spoonacular fallback
+    if (!nutritionData) {
+      nutritionData = await analyzeFoodText(food);
+    }
 
     let savedMeal = null;
     let todayLogs = [];
