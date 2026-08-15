@@ -15,8 +15,9 @@ router.post('/', auth, async (req, res) => {
 
     const workouts = await WorkoutLog.find({ userId: req.user._id }).sort({ date: -1 }).limit(5);
 
-    // Call Python AI Service
-    const aiResponse = await fetch('http://127.0.0.1:8000/api/ai/personalize', {
+    // Call Python AI Service (deployed separately, e.g. on Render)
+    const AI_SERVICE_URL = process.env.AI_SERVICE_URL || 'http://127.0.0.1:8000';
+    const aiResponse = await fetch(`${AI_SERVICE_URL}/api/ai/personalize`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

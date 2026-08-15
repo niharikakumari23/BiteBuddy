@@ -81,8 +81,9 @@ You are BiteBuddy AI, the user's smart coach. Use the context details above to a
       ...messages
     ];
 
-    // 5. Query FastAPI AI service
-    const aiResponse = await fetch('http://127.0.0.1:8000/api/chat', {
+    // 5. Query FastAPI AI service (deployed separately, e.g. on Render)
+    const AI_SERVICE_URL = process.env.AI_SERVICE_URL || 'http://127.0.0.1:8000';
+    const aiResponse = await fetch(`${AI_SERVICE_URL}/api/chat`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ messages: chatPayload })

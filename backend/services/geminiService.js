@@ -39,6 +39,36 @@ async function analyzeImage(imagePath) {
 }
 
 /**
+ * Analyze a food image from a memory buffer (for serverless environments).
+ * @param {Buffer} imageBuffer The image file buffer from multer memory storage.
+ * @param {string} mimeType The MIME type of the image (e.g. 'image/jpeg').
+ * @returns {Promise<Object>} Object with keys: food_name, calories, carbs, protein, fats.
+ */
+async function analyzeImageBuffer(imageBuffer, mimeType) {
+  try {
+    const imgPart = {
+      inlineData: {
+        mimeType: mimeType || 'image/jpeg',
+        data: imageBuffer.toString('base64'),
+      },
+    };
+
+    const systemPrompt = `You are a nutrition expert. Analyze the supplied food photograph and return ONLY a JSON object with EXACT keys: food_name (string), calories (integer), carbs (integer), protein (integer), fats (integer), fiber (integer), sugar (integer), sodium (integer). Do not include any extra text, markdown, or explanations.`;
+
+    const result = await model.generateContent([imgPart, { text: systemPrompt }]);
+    const responseText = result.response.text();
+    const jsonStart = responseText.indexOf('{');
+    const jsonEnd = responseText.lastIndexOf('}') + 1;
+    const jsonString = responseText.substring(jsonStart, jsonEnd);
+    const parsed = JSON.parse(jsonString);
+    return parsed;
+  } catch (err) {
+    console.error('Gemini buffer analysis error:', err);
+    throw new Error('Failed to analyse image buffer with Gemini');
+  }
+}
+
+/**
  * Query Spoonacular to get accurate nutrition details.
  * @param {string} foodName Name of the food.
  * @returns {Promise<Object|null>} Nutrition object or null.
@@ -170,6 +200,6 @@ async function checkSpoonacularNutrition(foodName) {
   return null;
 }
 
-module.exports = { analyzeImage, checkSpoonacularNutrition };
+module.exports = { analyzeImage, analyzeImageBuffer, checkSpoonacularNutrition };
 
 
