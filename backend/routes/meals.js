@@ -5,6 +5,8 @@ const multer = require('multer');
 const path = require('path');
 const { scanMeal } = require('../controllers/mealController');
 
+const auth = require('../middleware/auth');
+
 const router = express.Router();
 
 // Use memory storage for serverless compatibility (Vercel has no persistent disk).
@@ -27,6 +29,6 @@ const storage = isServerless
 const upload = multer({ storage });
 
 // POST /api/meals/scan – expects a single image file under field name "image"
-router.post('/scan', upload.single('image'), scanMeal);
+router.post('/scan', auth, upload.single('image'), scanMeal);
 
 module.exports = router;

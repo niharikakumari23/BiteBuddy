@@ -73,8 +73,10 @@ async function scanMeal(req, res) {
       console.error('Spoonacular check failed, using Gemini data:', err);
     }
 
-    // Use authenticated user if available, fall back to demo
-    const userId = req.user ? req.user._id : 'demo-user';
+    const mongoose = require('mongoose');
+
+    // Use authenticated user if available, fall back to valid Mongo ObjectId for unauthenticated calls
+    const userId = (req.user && req.user._id) ? req.user._id : new mongoose.Types.ObjectId();
 
     // Build document – mapping Gemini keys to our schema fields
     const mealDoc = new MealLog({
