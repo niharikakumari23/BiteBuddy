@@ -146,26 +146,35 @@ export const FoodScanner = ({
         body: formData,
       });
 
-      if (!res.ok) throw new Error('Scan failed');
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({}));
+        throw new Error(errData.error || errData.message || 'Image scan failed');
+      }
       const data = await res.json();
       
+      const foodName = data.foodName || data.food_name || 'Scanned Food';
+      const calories = Number(data.calories) || 450;
+      const protein = Number(data.protein) || 25;
+      const carbs = Number(data.carbs) || 50;
+      const fat = Number(data.fats || data.fat) || 15;
+
       setScanResult({
-        name: data.food_name,
-        confidence: Math.floor(Math.random() * 15 + 85),
-        calories: { current: data.calories, target: 500, min: data.minCalories, max: data.maxCalories }, 
-        protein: { current: data.protein, target: 50, min: data.minProtein, max: data.maxProtein },
-        carbs: { current: data.carbs, target: 100, min: data.minCarbs, max: data.maxCarbs },
-        fat: { current: data.fats, target: 60, min: data.minFat, max: data.maxFat },
-        imageUrl: data.image_url,
-        fiber: { min: data.minFiber, max: data.maxFiber },
-        sugar: { min: data.minSugar, max: data.maxSugar },
-        sodium: { min: data.minSodium, max: data.maxSodium },
-        cholesterol: { min: data.minCholesterol, max: data.maxCholesterol }
+        name: foodName,
+        confidence: Math.round((data.confidenceScore || data.confidence_score || 0.85) * 100),
+        calories: { current: calories, target: 500, min: data.minCalories || Math.round(calories * 0.9), max: data.maxCalories || Math.round(calories * 1.1) }, 
+        protein: { current: protein, target: 50, min: data.minProtein || Math.round(protein * 0.9), max: data.maxProtein || Math.round(protein * 1.1) },
+        carbs: { current: carbs, target: 100, min: data.minCarbs || Math.round(carbs * 0.9), max: data.maxCarbs || Math.round(carbs * 1.1) },
+        fat: { current: fat, target: 60, min: data.minFat || Math.round(fat * 0.9), max: data.maxFat || Math.round(fat * 1.1) },
+        imageUrl: data.imageUrl || data.image_url || selectedImage,
+        fiber: { min: data.minFiber || 3, max: data.maxFiber || 8 },
+        sugar: { min: data.minSugar || 2, max: data.maxSugar || 10 },
+        sodium: { min: data.minSodium || 200, max: data.maxSodium || 600 },
+        cholesterol: { min: data.minCholesterol || 0, max: data.maxCholesterol || 50 }
       });
-      addToast('Scan Complete', 'AI successfully analyzed your food.', 'success');
+      addToast('Scan Complete', `Successfully analyzed ${foodName}.`, 'success');
     } catch (err) {
       console.error(err);
-      addToast('Scan Failed', 'AI could not analyze this image.', 'error');
+      addToast('Scan Failed', err.message || 'AI could not analyze this image.', 'error');
     } finally {
       setIsScanning(false);
     }

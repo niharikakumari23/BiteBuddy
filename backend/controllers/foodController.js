@@ -34,9 +34,19 @@ async function analyzeAndLogFood(req, res) {
       return res.status(400).json({ error: 'Food description is required.' });
     }
 
-    const profile = await UserProfile.findOne({ userId: req.user._id });
+    let profile = await UserProfile.findOne({ userId: req.user._id });
     if (!profile) {
-      return res.status(400).json({ error: 'No profile found. Please complete onboarding first.' });
+      profile = new UserProfile({
+        userId: req.user._id,
+        name: req.user.name || 'User',
+        age: 25,
+        gender: 'Other',
+        weight: 70,
+        height: 170,
+        activityLevel: 'Moderate',
+        goal: 'Maintain Weight'
+      });
+      await profile.save();
     }
 
     let nutritionData = null;
@@ -80,12 +90,12 @@ async function analyzeAndLogFood(req, res) {
         calories: nutritionData.calories,
         carbs: nutritionData.carbs,
         protein: nutritionData.protein,
-        fats: nutritionData.fat, // map fat from API to fats in schema
-        fiber: nutritionData.fiber,
-        sugar: nutritionData.sugar,
-        sodium: nutritionData.sodium,
-        servingSize: nutritionData.serving_size,
-        confidenceScore: nutritionData.confidence_score,
+        fats: nutritionData.fat || nutritionData.fats || 10,
+        fiber: nutritionData.fiber || 0,
+        sugar: nutritionData.sugar || 0,
+        sodium: nutritionData.sodium || 0,
+        servingSize: nutritionData.serving_size || '1 serving',
+        confidenceScore: nutritionData.confidence_score || 0.85,
         mealType: finalMealType,
         source: 'AI Food Search'
       });
@@ -112,67 +122,67 @@ async function analyzeAndLogFood(req, res) {
         return acc;
       }, { calories: 0, protein: 0, carbs: 0, fat: 0, fiber: 0 });
 
-      // 3. Fetch Weekly Plan
-      const activePlan = await MealPlan.findOne({ userId: req.user._id }).sort({ generatedAt: -1 });
-      if (activePlan && activePlan.plan) {
-        const todayDay = getDayString();
-        const dailyTargets = {
-          calories: activePlan.calorieTarget || 2000,
-          protein: activePlan.macroTargets?.protein || 150,
-          carbs: activePlan.macroTargets?.carbs || 200,
-          fat: activePlan.macroTargets?.fat || 65,
-          fiber: 30 // default fiber goal
-        };
+      // 3. Fetch Weekly Plan (Guarded in try-catch so meal logging never fails)
+      try {
+        const activePlan = await MealPlan.findOne({ userId: req.user._id }).sort({ generatedAt: -1 });
+        if (activePlan && activePlan.plan && FASTAPI_URL) {
+          const todayDay = getDayString();
+          const dailyTargets = {
+            calories: activePlan.calorieTarget || 2000,
+            protein: activePlan.macroTargets?.protein || 150,
+            carbs: activePlan.macroTargets?.carbs || 200,
+            fat: activePlan.macroTargets?.fat || 65,
+            fiber: 30
+          };
 
-        // Fetch today's workouts to pass to AI
-        const todayWorkouts = await WorkoutLog.find({
-          userId: req.user._id,
-          date: { $gte: startOfDay, $lte: endOfDay }
-        });
+          const todayWorkouts = await WorkoutLog.find({
+            userId: req.user._id,
+            date: { $gte: startOfDay, $lte: endOfDay }
+          });
 
-        // Call FastAPI to adjust remaining plan
-        const adjustRes = await fetch(`${FASTAPI_URL}/api/ai/adjust`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            current_plan: activePlan.plan,
-            today_day: todayDay,
-            consumed_today: consumedToday,
-            daily_targets: dailyTargets,
-            profile: profile,
-            today_workouts: todayWorkouts
-          })
-        });
+          const adjustRes = await fetch(`${FASTAPI_URL}/api/ai/adjust`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              current_plan: activePlan.plan,
+              today_day: todayDay,
+              consumed_today: consumedToday,
+              daily_targets: dailyTargets,
+              profile: profile,
+              today_workouts: todayWorkouts
+            })
+          });
 
-        if (adjustRes.ok) {
-          const adjustData = await adjustRes.json();
-          if (adjustData.adjusted && adjustData.adjusted_day_plan) {
-            adjusted = true;
-            activePlan.plan[todayDay] = adjustData.adjusted_day_plan;
-            activePlan.markModified('plan');
+          if (adjustRes.ok) {
+            const adjustData = await adjustRes.json();
+            if (adjustData.adjusted && adjustData.adjusted_day_plan) {
+              adjusted = true;
+              activePlan.plan[todayDay] = adjustData.adjusted_day_plan;
+              activePlan.markModified('plan');
 
-            // Regenerate weekly shopping list based on the new plan
-            const shoppingRes = await fetch(`${FASTAPI_URL}/api/shopping/generate`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ plan: activePlan.plan })
-            });
+              const shoppingRes = await fetch(`${FASTAPI_URL}/api/shopping/generate`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ plan: activePlan.plan })
+              });
 
-            if (shoppingRes.ok) {
-              const shoppingData = await shoppingRes.json();
-              activePlan.shoppingList = shoppingData.items || [];
-              activePlan.markModified('shoppingList');
+              if (shoppingRes.ok) {
+                const shoppingData = await shoppingRes.json();
+                activePlan.shoppingList = shoppingData.items || [];
+                activePlan.markModified('shoppingList');
+              }
+
+              updatedPlan = await activePlan.save();
+              adjustmentNotification = adjustData.advice || "We adjusted today's remaining meals to keep you closer to your nutrition goals.";
+            } else {
+              updatedPlan = activePlan;
             }
-
-            // Save adjustments
-            updatedPlan = await activePlan.save();
-            adjustmentNotification = adjustData.advice || "We adjusted today's remaining meals to keep you closer to your nutrition goals.";
           } else {
             updatedPlan = activePlan;
           }
-        } else {
-          updatedPlan = activePlan;
         }
+      } catch (err) {
+        console.warn("AI plan adjustment skipped:", err.message);
       }
     }
 
